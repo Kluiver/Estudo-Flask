@@ -14,7 +14,14 @@
         </div>
 
         <div>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. In earum optio eos minima molestiae, accusantium quaerat quod cumque ratione esse, quo laborum ipsa autem magnam illo ipsam molestias impedit cum!</p>
+            <!-- Chaves duplcas para fazer o HTML buscar a variável no template -->
+            <p>Bem vindo {{context.usuario}} à aula de Flask!!!</p>
+            <p><b>Idade: </b>{{context.idade}}</p>
+
+            <!-- Redirecionando para a nova página usando o URL_FOR importado na views e apontando a função que ele deve retornar
+             IMPORTANTE pois ele vai refericiar o link dinamicamente. -->
+            <a href="{{url_for('nova_pagina')}}">Link para a nova página</a>
+
         </div>
     </body>
 
