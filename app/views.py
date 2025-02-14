@@ -15,7 +15,7 @@ def homepage():
     idade = 24
 
     #salvando as informações do backend em um dicionário para passar mais facilmente para o front-end
-    context {
+    context = {
         'usuario': usuario,
         'idade': idade
     }
