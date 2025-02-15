@@ -11,6 +11,8 @@ app = Flask(__name__) # Pegando o nome para o aplicativo do arquivo que estou tr
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db' #define qual o caminho para o banco de dados do nosso sistema
 # Desativando o check automático de modificações
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#passando o token de segurança
+app.config['SECRET_KEY'] = 'masterkey'
 
 # Criando o banco de dados
 db = SQLAlchemy(app)
