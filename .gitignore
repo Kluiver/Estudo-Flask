@@ -4,3 +4,4 @@ __pycache__
 versions
 migrations
 instance
+.env

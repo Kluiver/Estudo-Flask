@@ -17,6 +17,9 @@
         <p>Bem vindo {{context.usuario}} à aula de Flask!!!</p>
         <p><b>Idade: </b>{{context.idade}}</p>
 
+        <!-- Pegando a imagem na pasta static -->
+        <img src="{{ url_for('static', filename='img/logo.png') }}">
+
     </div>
 <!-- Fim do bloco -->
  {% endblock %}

@@ -30,7 +30,7 @@ def homepage():
 
 #FORMATO DE FORMULÁRIO NÃO RECOMENDADO
 #criando outra rota
-@app.route('/contato_old', methods=['GET', 'POST'])
+@app.route('/contato_old/', methods=['GET', 'POST'])
 def contato_old():
     #criando o contexto para retornar ao HTML
     context = {}
@@ -66,7 +66,7 @@ def contato_old():
 
 
 #FORMATO DE FORMULÁRIO RECOMENDADO
-@app.route('/contato', methods=['GET', 'POST'])
+@app.route('/contato/', methods=['GET', 'POST'])
 def contato():
     #definindo o formulário
     form = ContatoForm()
@@ -84,7 +84,7 @@ def contato():
 
 
 #criando nova view para a lista de contatos
-@app.route('/contato/lista')
+@app.route('/contato/lista/')
 def contato_lista():
 
     #verificando se a requisição foi GET
@@ -105,3 +105,11 @@ def contato_lista():
 
     #retorno o HTML da lista de contatos
     return render_template('contato_lista.html', context=context)
+
+# Criando rota dinâmica
+@app.route('/contato/<int:id>/')
+def contato_detail(id):
+
+    # Pegando o dado do contato e salvando em um objeto pelo ID
+    obj = Contato.query.get(id)
+    return render_template('contato_detail.html', obj=obj)

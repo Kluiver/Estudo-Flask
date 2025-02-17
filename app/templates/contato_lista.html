@@ -33,6 +33,7 @@
                         <th>E-mail</th>
                         <th>Assunto</th>
                         <th>Respondido?</th>
+                        <th></th>
                     </thead>
                     <!-- Corpo da tabela -->
                      <tbody>
@@ -53,6 +54,7 @@
                                 <!-- Fim do if -->
                                 {% endif %}
                             </td>
+                            <td><a href="{{ url_for('contato_detail', id=linha.id) }}"><img src="{{url_for('static', filename='img/next.png')}}" style="width: 20px;"></a></td>
                             
                         </tr>
                         <!-- Fim do for -->
