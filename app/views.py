@@ -81,3 +81,27 @@ def contato():
         return redirect(url_for('homepage'))
 
     return render_template('contato.html', context=context, form = form)
+
+
+#criando nova view para a lista de contatos
+@app.route('/contato/lista')
+def contato_lista():
+
+    #verificando se a requisição foi GET
+    if request.method == 'GET':
+        #pegando os argumentos pesquisados
+        pesquisa = request.args.get('pesquisa', '')
+
+    #buscando todos os contatos do banco de dados
+    dados = Contato.query.order_by('nome') #query pega todos os dados do banco de dados e order by ordena por nome
+
+    #se a pesquisa for diferente de vazio
+    if pesquisa != '':
+        #filtro a pesquisa
+        dados = dados.filter_by(nome = pesquisa)
+
+    # Passando os dados para o contexto
+    context = {'dados':dados.all()}
+
+    #retorno o HTML da lista de contatos
+    return render_template('contato_lista.html', context=context)

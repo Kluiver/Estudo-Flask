@@ -13,4 +13,4 @@ class Contato(db.Model): #TODA classe vai herdar o modelo do banco de dados
     email = db.Column(db.String, nullable= True)
     assunto = db.Column(db.String, nullable= True)
     mensagem = db.Column(db.String, nullable= True)
-    respodida = db.Column(db.Integer, default= 0)
+    respondida = db.Column(db.Integer, default= 0)

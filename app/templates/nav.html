@@ -1,0 +1,5 @@
+<!-- Redirecionando para a nova página usando o URL_FOR importado na views e apontando a função que ele deve retornar
+IMPORTANTE pois ele vai referenciar o link dinamicamente. -->
+<a href="/" class="btn btn-dark">Home</a>
+<a href="{{url_for('contato')}}" class="btn btn-primary">Contato</a>
+<a href="{{url_for('contato_lista')}}" class="btn btn-info">Contato - Lista</a>
