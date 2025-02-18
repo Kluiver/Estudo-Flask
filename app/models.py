@@ -1,6 +1,24 @@
-from app import db
+from app import db, login_manager
 #importando date de datetime
 from datetime import datetime, timezone
+# Importando o modelo que usaremos para a classe de usuário
+from flask_login import UserMixin
+
+
+# Função para recuperar o usuário para fazer a sessão
+@login_manager.user_loader
+def load_user(user_id, ):
+    # Retornar o usuário logado
+    return User.query.get(user_id)
+
+# Criando a classe responsável por criar o campo usuário no banco de dados
+class User(db.Model, UserMixin):
+    # Primary key para a classe
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String, nullable=True)
+    sobrenome = db.Column(db.String, nullable=True)
+    email = db.Column(db.String, nullable=True)
+    senha = db.Column(db.String, nullable=True) 
 
 # Criando a classe contato reponsável por criar a tabela no banco de dados
 class Contato(db.Model): #TODA classe vai herdar o modelo do banco de dados
@@ -14,3 +32,4 @@ class Contato(db.Model): #TODA classe vai herdar o modelo do banco de dados
     assunto = db.Column(db.String, nullable= True)
     mensagem = db.Column(db.String, nullable= True)
     respondida = db.Column(db.Integer, default= 0)
+

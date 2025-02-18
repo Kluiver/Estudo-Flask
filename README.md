@@ -1,1 +1,1 @@
-Use o comando "pip install -r requirements" para instalar os requisitos.
+Use o comando "pip install -r requirements.txt" para instalar os requisitos.

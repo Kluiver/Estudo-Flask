@@ -6,6 +6,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 # Importando o dotenv
 from dotenv import load_dotenv
+# Importando o login manager
+from flask_login import LoginManager
+# Importando o criptografador de senha
+from flask_bcrypt import Bcrypt
 # Importando a bibliotesa OS
 import os
 
@@ -25,6 +29,12 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 db = SQLAlchemy(app)
 # Definindo o aplicativo de migração passando o app e o banco de dados criado
 migrate = Migrate(app, db)
+
+# Configurando o login e o bcrypt
+login_manager = LoginManager(app)
+# Essa opção serve para criar páginas que precisam estar logado para acessar
+login_manager.login_view = 'login'
+bcrypt = Bcrypt(app)
 
 # PARA CRIAR O BANCO DE DADOS, RODA NO TERMINAL "flask db init"
 # APÓS ISSO, RODAR O COMANDO "flask db --message migrate '<mensagem de commit>' "

@@ -1,0 +1,44 @@
+<!-- Extendendo o arquivo base -->
+ {% extends 'base.html' %}
+
+<!-- Criando o block -->
+ {% block content %}
+    <div class="container">
+        <div class="row mt-4">
+        <h3>Cadastro de Usuário</h3>
+
+        <!-- Criando o formulário -->
+            <form action="" method="post" class="row mt-4 p-4 rounded border shadow">
+
+            <!-- Adicionando o nivel de segurança -->
+            {{ form.csrf_token }}
+
+            <!-- Campo de nome -->
+            {{ form.nome.label() }}
+            <!-- Posso adicionar caracteristicas HTML dentro da form -->
+            {{ form.nome(class='form-control') }}
+
+            <!-- Campo sobrenome -->
+            {{ form.sobrenome.label() }}
+            {{ form.sobrenome(class='form-control') }}
+
+            <!-- Campo email -->
+            {{ form.email.label() }}
+            {{ form.email(class='form-control') }}
+
+            <!-- Campo senha -->
+            {{ form.senha.label() }}
+            {{ form.senha(class='form-control') }}
+
+            <!-- Confirmação de senha -->
+            {{ form.confirmacao_senha.label() }}
+            {{ form.confirmacao_senha(class='form-control') }}
+
+            <!-- Botão -->
+            {{ form.btn_submit(class='btn btn-dark col-12 mt-3') }}
+            </form>
+
+        </div>
+    </div>
+<!-- Fechando o bloco -->
+{% endblock %}

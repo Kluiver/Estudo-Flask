@@ -9,23 +9,60 @@ from flask import render_template, url_for, request, redirect
 from app.models import Contato
 
 #importando o formulario
-from app.forms import ContatoForm 
+from app.forms import ContatoForm, UserForm, LoginForm
+
+# Funçoes para login de usuário
+from flask_login import login_user, logout_user, current_user
 
 #criando a rota para o aplicativo
 #colocando a barra sem nada para ser a página inicial
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 #função que vai renderizar a pagina
 def homepage():
     #Informaçoes do backend para o front end
     usuario = 'Kluiver'
     idade = 24
 
+    form = LoginForm()
+
+    # Verificando se o formulário tá valido e foi submetido
+    if form.validate_on_submit():
+        #logo com o usuário
+        user = form.login()
+        # Faço o navegador lembrar do login
+        login_user(user, remember=True)
+
+    # Verificando o usuário logado atual
+    print(current_user.is_authenticated)
     #salvando as informações do backend em um dicionário para passar mais facilmente para o front-end
     context = {
         'usuario': usuario,
         'idade': idade
     }
-    return render_template('index.html', context=context) #Passando o dicionário com as informaçoes para o front
+    return render_template('index.html', context=context, form=form) #Passando o dicionário com as informaçoes para o front
+
+
+#criando rota para cadastro de usuário
+@app.route('/cadastro/', methods=['GET', 'POST'])
+def cadastro():
+    # Passando o formulário do usuário
+    form = UserForm()
+    # Verificando se o formulário tá valido e foi submetido
+    if form.validate_on_submit():
+        # Salvo o usuário
+        user = form.save()
+        # Login do usuário
+        login_user(user, remember=True) # remember true para caso abra uma nova aba, o site não vai esquecer que já está logado
+        # redirecioso para a home page
+        return redirect(url_for('homepage'))
+    # Retornando a pagina de cadastro
+    return render_template('cadastro.html', form=form)
+
+# Rota de logout
+@app.route('/sair/')
+def logout():
+    logout_user()
+    return redirect(url_for('homepage'))
 
 
 #FORMATO DE FORMULÁRIO NÃO RECOMENDADO
