@@ -31,7 +31,6 @@
                             <tr>
                                 <td>{{ linha.msg_resumo() }}</td>
                                 <td>{{ linha.user.nome }}</td>
-                                <td><a href="" class="btn btn-primary">Comentar</a></td>
                                 <td><a href="{{ url_for('post_detail', id=linha.id) }}"><img src="{{url_for('static', filename='img/next.png')}}" style="width: 20px;"></a></td>                            
                             </tr>
                             
