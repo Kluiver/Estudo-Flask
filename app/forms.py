@@ -5,7 +5,7 @@ from wtforms import StringField, SubmitField, PasswordField
 #importando os validadores do wtforms
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 #importando o modelo
-from app.models import Contato, User
+from app.models import Contato, User, Post, Comentario
 #importando o banco de dados
 from app import db, bcrypt
 
@@ -46,6 +46,7 @@ class UserForm(FlaskForm):
         db.session.commit()
         #retorno o usuário
         return user
+
 
 # Classe de formulário para login de usuário
 class LoginForm(FlaskForm):
@@ -94,3 +95,45 @@ class ContatoForm(FlaskForm):
         #adicionando ao banco de dados
         db.session.add(contato)
         db.session.commit()
+
+
+# Formulário para criação de post
+class PostForm(FlaskForm):
+    # campo de mensagem para o post
+    mensagem = StringField('Mensagem', validators=[DataRequired()])
+    # Botão para enviar o post
+    btn_submit = SubmitField('Postar', validators=[DataRequired()])
+
+    # Função para salvar o post
+    def save(self, user_id):
+        post = Post(
+            mensagem = self.mensagem.data,
+            user_id = user_id
+        )
+
+        # Salvando no banco de dados
+        db.session.add(post)
+        db.session.commit()
+
+
+# Formulário para criação de comentário
+class ComentarioForm(FlaskForm):
+    # campo de comentário
+    mensagem = StringField('Mensagem', validators=[DataRequired()])
+    # Botão para enviar o comentário
+    btn_submit = SubmitField('Enviar', validators=[DataRequired()])
+
+    # TODO: Verificar problema no nome do usuario
+    # Função para salvar o comentário
+    def save(self, user_id, post_id):
+        comentario = Comentario(
+            mensagem = self.mensagem.data,
+            user_id = user_id,
+            post_id = post_id
+        )
+
+        # Salvando no banco de dados
+        db.session.add(comentario)
+        db.session.commit()
+
+        

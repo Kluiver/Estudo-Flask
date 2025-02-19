@@ -18,7 +18,12 @@ class User(db.Model, UserMixin):
     nome = db.Column(db.String, nullable=True)
     sobrenome = db.Column(db.String, nullable=True)
     email = db.Column(db.String, nullable=True)
-    senha = db.Column(db.String, nullable=True) 
+    senha = db.Column(db.String, nullable=True)
+    # Vinculando o usuário com o post NAO cria tabela, e sim uma relação
+    # Coloco o nome da classe que tem relação, backref é como o Post vai chamar o usuário, lazy=True permite a relação inversa
+    posts = db.relationship('Post', backref='user', lazy=True)
+    # Vinculando o comentário ao usuario
+    comentarios = db.relationship('Comentario', backref='user', lazy=True) 
 
 # Criando a classe contato reponsável por criar a tabela no banco de dados
 class Contato(db.Model): #TODA classe vai herdar o modelo do banco de dados
@@ -33,3 +38,31 @@ class Contato(db.Model): #TODA classe vai herdar o modelo do banco de dados
     mensagem = db.Column(db.String, nullable= True)
     respondida = db.Column(db.Integer, default= 0)
 
+# classe que vai criar a tabela post
+class Post(db.Model):
+    # ID
+    id = db.Column(db.Integer, primary_key=True)
+    # Data de criação do post
+    data_criacao = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    # Mensagem do post
+    mensagem = db.Column(db.String, nullable= True)
+    # Vinculando usuário que fez o post
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable= True)# Passo o nome da tabela e a coluna que preciso dessa tabela
+    # Vinculando o comentário ao post
+    comentarios = db.relationship('Comentario', backref='post', lazy=True)
+
+    # Resumo do post
+    def msg_resumo(self):
+        return f'{self.mensagem[:10]} ... '
+    
+# Classe que vai criar a tabela comentarios de post
+class Comentario(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    # Data do comentário
+    data_comentario = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    # Mensagem do comentário
+    mensagem = db.Column(db.String, nullable= True)
+    # Vinculando o post ao comentário
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable= True)
+    # Vinculando o usuário que comentou
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable= True)

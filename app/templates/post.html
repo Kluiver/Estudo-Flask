@@ -1,0 +1,51 @@
+<!-- Estende a base -->
+{% extends 'base.html' %}
+
+<!-- Criando o block -->
+{% block content %}
+
+<div class="container">
+    <!-- Incluindo os botoes -->
+    {% include 'nav.html' %}
+
+    <div class="row mt-4">
+        <h5>Post</h5>
+        <hr>
+
+        <div class="col-12 border rounded p-4 shadow">
+            <h5>Mensagem: </h5>
+            {{ obj.mensagem }}
+        </div>
+
+        <div class="col-12 mt-3">
+            <form action="" method="post" class="row mt-4 p-4 rounded border shadow">
+
+                <!-- Adicionando o nivel de segurança -->
+                {{ form.csrf_token }}
+    
+                <!-- Campo mensagem -->
+                {{ form.mensagem.label() }}
+                {{ form.mensagem(class='form-control') }}
+    
+                <!-- Botão -->
+                {{ form.btn_submit(class='btn btn-dark col-12 mt-3') }}
+                </form>
+        </div>
+        <hr>
+        <div class="col-12 mt-4 border rounded shadow p-3">
+            <h5>Comentários: </h5>
+            <!-- Iterando sobre os comentarios do pos -->
+             {% for c in obj.comentarios %}
+                <p>
+                    <b>Usuário: </b>{{ c.user.nome }} {{ c.user.sobrenome }} <br>
+                    {{ c.mensagem }}
+                </p>
+                <hr>
+             {% endfor %}
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+<!-- fechando o bloco -->

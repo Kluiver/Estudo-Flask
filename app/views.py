@@ -6,10 +6,10 @@ from app import app, db
 from flask import render_template, url_for, request, redirect
 
 #importando a classe Contato de model
-from app.models import Contato
+from app.models import Contato, Post, User, Comentario
 
 #importando o formulario
-from app.forms import ContatoForm, UserForm, LoginForm
+from app.forms import ContatoForm, UserForm, LoginForm, PostForm, ComentarioForm
 
 # Funçoes para login de usuário
 from flask_login import login_user, logout_user, current_user
@@ -57,6 +57,7 @@ def cadastro():
         return redirect(url_for('homepage'))
     # Retornando a pagina de cadastro
     return render_template('cadastro.html', form=form)
+
 
 # Rota de logout
 @app.route('/sair/')
@@ -143,6 +144,7 @@ def contato_lista():
     #retorno o HTML da lista de contatos
     return render_template('contato_lista.html', context=context)
 
+
 # Criando rota dinâmica
 @app.route('/contato/<int:id>/')
 def contato_detail(id):
@@ -150,3 +152,44 @@ def contato_detail(id):
     # Pegando o dado do contato e salvando em um objeto pelo ID
     obj = Contato.query.get(id)
     return render_template('contato_detail.html', obj=obj)
+
+
+# Rota de criação de post
+@app.route('/post/novo/', methods=['GET', 'POST'])
+def post_novo():
+    # Definindo o formulário do post
+    form = PostForm()
+    # Se o posto foi valido e submetido
+    if form.validate_on_submit():
+        #salvo o post com o usuario atual
+        form.save(current_user.id)
+        # redireciono para a homepage
+        return redirect(url_for('homepage'))
+    # Retornando o HTML do post
+    return render_template('post_novo.html', form=form)
+
+#Rota para detalhes do post dinamico
+@app.route('/post/<int:id>/', methods=['GET', 'POST'])
+def post_detail(id):
+    #pegando o dado do post e salvando em um objeto pelo id
+    obj = Post.query.get(id)
+    # Pegando o formulário para comentar no post
+    form = ComentarioForm()
+    # Se o formulário foi valido e submetivo
+    if form.validate_on_submit():
+        # salva o usuário e o post atual
+        form.save(current_user.id, id)
+        # Recarrego a página com o post
+        return redirect(url_for('post_detail', id=id))
+    # Retornando o HTML do post
+    return render_template('post.html', obj=obj, form=form)
+
+# Rota de lista de posts
+@app.route('/post/lista/')
+def post_lista():
+    # Pegando todos os posts
+    posts = Post.query.all()
+    return render_template('post_lista.html', posts=posts)
+
+
+

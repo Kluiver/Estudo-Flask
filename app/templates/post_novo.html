@@ -1,0 +1,29 @@
+<!-- Extendendo o arquivo base -->
+ {% extends 'base.html' %}
+
+<!-- Criando o block -->
+ {% block content %}
+    <div class="container">
+        <div class="row mt-4">
+
+        <!-- Criando o formulário -->
+            <form action="" method="post" class="row mt-4 p-4 rounded border shadow">
+
+            <div class="row mb-4"><h3>Novo Post</h3></div>
+            
+            <!-- Adicionando o nivel de segurança -->
+            {{ form.csrf_token }}
+
+            <!-- Campo de nome -->
+            {{ form.mensagem.label() }}
+            <!-- Posso adicionar caracteristicas HTML dentro da form -->
+            {{ form.mensagem(class='form-control') }}
+
+            <!-- Botão -->
+            {{ form.btn_submit(class='btn btn-dark col-12 mt-3') }}
+            </form>
+
+        </div>
+    </div>
+<!-- Fechando o bloco -->
+{% endblock %}

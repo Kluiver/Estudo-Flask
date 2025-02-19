@@ -1,0 +1,47 @@
+<!-- Extendendo o base -->
+{% extends 'base.html' %}
+<!-- Criando bloco -->
+{% block content %}
+    <body>
+
+        <!-- Criando o container -->
+        <div class="container">
+
+            <!-- Incluindo o código do nav.html -->
+            {% include 'nav.html' %}
+            
+            <div class="row mt-4">
+
+                <h3 >Lista de Posts</h3>
+
+                <!-- Criando a tabela de contatos -->
+                <div class="cols-12">
+                    <table class="table">
+                        <!-- Cabeçalho da tabela -->
+                        <thead>
+                            <th>Post</th>
+                            <th>Usuario</th>
+                            <th></th>
+                        </thead>
+                        <!-- Corpo da tabela -->
+                        <tbody>
+                            <!-- Estrutura for dentro do HTML -->
+                            <!-- Inicio do for -->
+                            {% for linha in posts %}
+                            <tr>
+                                <td>{{ linha.msg_resumo() }}</td>
+                                <td>{{ linha.user.nome }}</td>
+                                <td><a href="" class="btn btn-primary">Comentar</a></td>
+                                <td><a href="{{ url_for('post_detail', id=linha.id) }}"><img src="{{url_for('static', filename='img/next.png')}}" style="width: 20px;"></a></td>                            
+                            </tr>
+                            
+                            <!-- Fim do for -->
+                            {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+<!-- Fechando bloco -->
+ {% endblock %}
