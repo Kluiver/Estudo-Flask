@@ -6,13 +6,13 @@ from app import app, db
 from flask import render_template, url_for, request, redirect
 
 #importando a classe Contato de model
-from app.models import Contato, Post, User, Comentario
+from app.models import Contato, Post
 
 #importando o formulario
 from app.forms import ContatoForm, UserForm, LoginForm, PostForm, ComentarioForm
 
 # Funçoes para login de usuário
-from flask_login import login_user, logout_user, current_user
+from flask_login import login_user, logout_user, current_user, login_required
 
 #criando a rota para o aplicativo
 #colocando a barra sem nada para ser a página inicial
@@ -61,6 +61,7 @@ def cadastro():
 
 # Rota de logout
 @app.route('/sair/')
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('homepage'))
@@ -69,6 +70,7 @@ def logout():
 #FORMATO DE FORMULÁRIO NÃO RECOMENDADO
 #criando outra rota
 @app.route('/contato_old/', methods=['GET', 'POST'])
+@login_required
 def contato_old():
     #criando o contexto para retornar ao HTML
     context = {}
@@ -105,6 +107,7 @@ def contato_old():
 
 #FORMATO DE FORMULÁRIO RECOMENDADO
 @app.route('/contato/', methods=['GET', 'POST'])
+@login_required
 def contato():
     #definindo o formulário
     form = ContatoForm()
@@ -123,7 +126,11 @@ def contato():
 
 #criando nova view para a lista de contatos
 @app.route('/contato/lista/')
+@login_required
 def contato_lista():
+
+    # Barrando o acesso a uma página de um usuário com base no ID
+    if current_user.id == 1: return redirect(url_for('homepage'))
 
     #verificando se a requisição foi GET
     if request.method == 'GET':
@@ -147,6 +154,7 @@ def contato_lista():
 
 # Criando rota dinâmica
 @app.route('/contato/<int:id>/')
+@login_required
 def contato_detail(id):
 
     # Pegando o dado do contato e salvando em um objeto pelo ID
@@ -156,6 +164,7 @@ def contato_detail(id):
 
 # Rota de criação de post
 @app.route('/post/novo/', methods=['GET', 'POST'])
+@login_required
 def post_novo():
     # Definindo o formulário do post
     form = PostForm()
@@ -170,6 +179,7 @@ def post_novo():
 
 #Rota para detalhes do post dinamico
 @app.route('/post/<int:id>/', methods=['GET', 'POST'])
+@login_required
 def post_detail(id):
     #pegando o dado do post e salvando em um objeto pelo id
     obj = Post.query.get(id)
@@ -186,6 +196,7 @@ def post_detail(id):
 
 # Rota de lista de posts
 @app.route('/post/lista/')
+@login_required
 def post_lista():
     # Pegando todos os posts
     posts = Post.query.all()

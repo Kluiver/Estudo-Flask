@@ -7,7 +7,8 @@
         <div class="row mt-4">
 
         <!-- Criando o formulário -->
-            <form action="" method="post" class="row mt-4 p-4 rounded border shadow">
+         <!-- enctype="multipart/form-data" é para aceitar o upload de arquivos -->
+            <form action="" method="post" class="row mt-4 p-4 rounded border shadow" enctype="multipart/form-data">
 
             <div class="row mb-4"><h3>Novo Post</h3></div>
             
@@ -18,6 +19,11 @@
             {{ form.mensagem.label() }}
             <!-- Posso adicionar caracteristicas HTML dentro da form -->
             {{ form.mensagem(class='form-control') }}
+
+            <!-- Campo de imagem -->
+            {{ form.imagem.label() }}
+            <!-- Posso adicionar caracteristicas HTML dentro da form -->
+            {{ form.imagem(class='form-control') }}
 
             <!-- Botão -->
             {{ form.btn_submit(class='btn btn-dark col-12 mt-3') }}

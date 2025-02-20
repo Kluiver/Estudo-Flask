@@ -24,6 +24,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI') #define qual o
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #passando o token de segurança
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+# Configurando pasta pala upload de arquivos do usuário
+app.config['UPLOAD_FILES'] = r'static/data'
 
 # Criando o banco de dados
 db = SQLAlchemy(app)
@@ -33,7 +35,7 @@ migrate = Migrate(app, db)
 # Configurando o login e o bcrypt
 login_manager = LoginManager(app)
 # Essa opção serve para criar páginas que precisam estar logado para acessar
-login_manager.login_view = 'login'
+login_manager.login_view = 'homepage'
 bcrypt = Bcrypt(app)
 
 # PARA CRIAR O BANCO DE DADOS, RODA NO TERMINAL "flask db init"

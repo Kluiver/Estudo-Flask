@@ -46,6 +46,8 @@ class Post(db.Model):
     data_criacao = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     # Mensagem do post
     mensagem = db.Column(db.String, nullable= True)
+    # Campo para upload de imagem
+    imagem = db.Column(db.String, nullable= True, default='default.png')
     # Vinculando usuário que fez o post
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable= True)# Passo o nome da tabela e a coluna que preciso dessa tabela
     # Vinculando o comentário ao post

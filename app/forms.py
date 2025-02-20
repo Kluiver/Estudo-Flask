@@ -1,13 +1,17 @@
 #importando o formulário do flask
 from flask_wtf import FlaskForm
 #importando os campos string e de envio do flask wtf
-from wtforms import StringField, SubmitField, PasswordField
+from wtforms import StringField, SubmitField, PasswordField, FileField
 #importando os validadores do wtforms
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 #importando o modelo
 from app.models import Contato, User, Post, Comentario
 #importando o banco de dados
-from app import db, bcrypt
+from app import db, bcrypt, app
+# Importando OS
+import os
+# Módulo responsável por cuidar dos nomes dos arquivos para o banco de dados
+from werkzeug.utils import secure_filename
 
 # Classe de forumulário para usuário
 class UserForm(FlaskForm):
@@ -101,16 +105,31 @@ class ContatoForm(FlaskForm):
 class PostForm(FlaskForm):
     # campo de mensagem para o post
     mensagem = StringField('Mensagem', validators=[DataRequired()])
+    imagem = FileField('Imagem', validators=[DataRequired()])
     # Botão para enviar o post
     btn_submit = SubmitField('Postar', validators=[DataRequired()])
 
     # Função para salvar o post
     def save(self, user_id):
+        # Salvando a imagem no banco de dados
+        imagem = self.imagem.data
+        # Alterando o nome da imagem para um nome seguro
+        nome_seguro = secure_filename(imagem.filename)
         post = Post(
             mensagem = self.mensagem.data,
-            user_id = user_id
+            user_id = user_id,
+            imagem = nome_seguro
         )
 
+        # Salvando a imagem no diretório
+        caminho = os.path.join(
+            os.path.abspath(os.path.dirname(__file__)), # Pegar a pasta que está o projeto
+            app.config['UPLOAD_FILES'], # Definir a pasta que configuramos para upload
+            'post', # Pasta que está os posts
+            nome_seguro
+        )
+
+        imagem.save(caminho)
         # Salvando no banco de dados
         db.session.add(post)
         db.session.commit()
