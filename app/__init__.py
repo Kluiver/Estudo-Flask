@@ -39,8 +39,9 @@ login_manager.login_view = 'homepage'
 bcrypt = Bcrypt(app)
 
 # PARA CRIAR O BANCO DE DADOS, RODA NO TERMINAL "flask db init"
-# APÓS ISSO, RODAR O COMANDO "flask db --message migrate '<mensagem de commit>' "
+# APÓS ISSO, RODAR O COMANDO "flask db migrate -m '<mensagem de commit>' "
 # EM SEGUIDA, RODAR O COMANDO "flask db upgrade" PARA QUE AS ALTERAÇOES SUBAM PARA O BANCO
 
 from app.views import homepage
 from app.models import Contato
+

@@ -1,7 +1,5 @@
 .venv
 *.pyc
 __pycache__
-versions
-migrations
-instance
 .env
+removerdados.py
