@@ -7,7 +7,7 @@ from flask_login import UserMixin
 
 # Função para recuperar o usuário para fazer a sessão
 @login_manager.user_loader
-def load_user(user_id, ):
+def load_user(user_id):
     # Retornar o usuário logado
     return User.query.get(user_id)
 
